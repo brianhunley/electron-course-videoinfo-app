@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Video Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>Video Info</h1>
+  <form action="">
+    <div>
+      <label for="">Select a video</label>
+      <input type="file" accept="video/*" />
+    </div>
+    <button type="submit">Get Info</button>
+  </form>
+
+  <h2 id="result"></h2>
+  <h2 id="result_2"></h2>
+
+  <script>
+    // electron allows the require statement in the html file. Weird, huh?
+    // we have access to the node environment here
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+    // const moment = require('moment');
+
+    document.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const { path } = document.querySelector('input').files[0];
+
+      // use ipcRenderer.send to pass data from the main window to the electron app
+      ipcRenderer.send('video:submit', path);
+    });
+
+    ipcRenderer.on('video:metadata', (event, duration) => {
+      document.querySelector('#result').innerHTML = `Video is ${duration} seconds.`;
+
+      // const formatted_duration = moment({ seconds: duration }).format('hh:mm:ss');
+      // document.querySelector('#result_2').innerHTML = `Video duratin is ${ formatted_duration }.`;
+    });
+  </script>
+</body>
+</html>
