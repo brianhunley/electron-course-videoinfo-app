@@ -11,6 +11,6 @@
   "dependencies": {
     "electron": "^2.0.2",
     "fluent-ffmpeg": "^2.1.2",
-    "moment": "^2.22.2"
+    "moment": "^2.29.2"
   }
 }
